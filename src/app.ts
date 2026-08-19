@@ -1,8 +1,12 @@
 import express from "express";
+import { randomUUID } from "node:crypto";
 
 const app = express();
 
 app.use(express.json());
+
+//const pizzaCategoryId = randomUUID();
+//const drinkCategoryId = randomUUID();
 
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -13,19 +17,19 @@ app.get("/", (req, res) => {
 
 const categories = [
   {
-    id: 1,
+    id: randomUUID(),
     name: "Pizzas",
     description:
       "Pizzas salgadas com diferentes sabores, tamanhos e combinações de ingredientes.",
   },
   {
-    id: 2,
+    id: randomUUID(),
     name: "Bebidas",
     description:
       "Bebidas para acompanhar as pizzas, incluindo refrigerantes, sucos e água.",
   },
   {
-    id: 3,
+    id: randomUUID(),
     name: "Sobremesas",
     description:
       "Opções doces para finalizar a refeição, como pizzas doces, sorvetes e sobremesas especiais.",
@@ -82,6 +86,20 @@ const products = [
 
 app.get("/categories", (req, res) => {
   res.status(200).json(categories);
+});
+
+app.get("/categories/:id", (req, res) => {
+  const category = categories.find((category) => {
+    return category.id == req.params.id;
+  });
+
+  if (!category) {
+    return res.status(404).json({
+      message: "Categoria não encontrada.",
+    });
+  }
+
+  res.status(200).json(category);
 });
 
 app.post("/categories", (req, res) => {
