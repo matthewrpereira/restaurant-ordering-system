@@ -210,4 +210,8 @@ app.delete("/products/:id", (req, res) => {
   });
 });
 
+app.get("/test-supabase", async (req, res) => {
+  //criar teste de conexão...
+})
+
 export default app;
